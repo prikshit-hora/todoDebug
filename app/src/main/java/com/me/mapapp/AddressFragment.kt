@@ -1,47 +1,52 @@
 package com.me.mapapp
 
-import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.model.LatLng
-import kotlinx.android.synthetic.main.fragment_address.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
 
 class AddressFragment : Fragment() {
-    lateinit var latLng: LatLng
 
-    companion object {
-        const val LAT_LONG_KEY = "lat_long"
-    }
+    private lateinit var rvAdapter: AddressListAdapter
+    private var addresses: ArrayList<String> = arrayListOf()
+
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        latLng = arguments?.get(LAT_LONG_KEY) as LatLng
-        return inflater.inflate(R.layout.fragment_address, container, false)
+        val view = inflater.inflate(R.layout.fragment_address, container, false)
+        recyclerView = view.findViewById(R.id.rvAddresses)
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        reverseGeocode(latLng)
+        initViews()
     }
 
-    private fun reverseGeocode(location: LatLng) {
-        //TODO: This should be done off the main thread and it exists for the purpose of assignment only
-        var addresses: List<Address> = emptyList()
-
-        try {
-            val geoCoder = Geocoder(activity, Locale.getDefault())
-            addresses = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
-            tvAddress.text = addresses.first().getAddressLine(0)
-        } catch (exception: Exception) {
-            println("Exception reverse geo-coding: $exception")
+    private fun initViews() {
+        rvAdapter = AddressListAdapter(addresses)
+        with(recyclerView) {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity)
+            adapter = rvAdapter
         }
     }
+
+    fun updateAddresses(updatedAddresses: ArrayList<String>) {
+        addresses = updatedAddresses
+
+        rvAdapter = AddressListAdapter(addresses)
+        recyclerView.adapter = rvAdapter
+
+        //rvAdapter.notifyDataSetChanged()
+    }
+
 }

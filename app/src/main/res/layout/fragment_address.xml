@@ -5,14 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".MapFragment">
 
-    <TextView
-        android:id="@+id/tvAddress"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddresses"
+        android:background="#efefef"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:padding="@dimen/address_padding"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/address_size" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>
