@@ -1,3 +1,5 @@
+------DEBUGGING EXERCISE--------
+
 1. Check your build.gradle file to verify there are no compilation errors.
 
 You may need to update this file depending on what SDK verison you have installed and
@@ -14,3 +16,12 @@ android {
 
 3. The app is supposed to be able to save and load items from a file called todo.txt.  Find out
 why it's not working.
+
+
+----------FEATURE BUILDING-----------
+
+1.  Create 2 fragments on single screen.
+
+2. Show a map on first fragment. If a user clicks any where on map show a marker there.
+
+3. Display the address of selected location on second fragment.
