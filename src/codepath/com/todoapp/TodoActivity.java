@@ -26,7 +26,6 @@ public class TodoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readItems();
         setContentView(R.layout.activity_todo);
         lvItems = (ListView) findViewById(R.id.listView);
         items = new ArrayList<String>();
@@ -44,6 +43,7 @@ public class TodoActivity extends Activity {
         });
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(arrayAdapter);
+        readItems();
     }
 
     @Override
@@ -67,8 +67,10 @@ public class TodoActivity extends Activity {
 
     public void addButton(View view) {
         EditText etItemToAdd = (EditText) findViewById(R.id.etItem);
+        items.add(etItemToAdd.getText().toString());
         arrayAdapter.add(etItemToAdd.getText().toString());
         etItemToAdd.setText("");
+        saveItems();
     }
 
     private void readItems() {
@@ -76,6 +78,7 @@ public class TodoActivity extends Activity {
         File todoFile = new File(filesDir, "todo.txt");
         try {
             items = new ArrayList<String>(FileUtils.readLines(todoFile));
+            arrayAdapter.addAll(items);
         } catch (IOException e) {
             items = new ArrayList<String>();
             e.printStackTrace();
